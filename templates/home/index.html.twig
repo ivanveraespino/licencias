@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    ADMINISTRACIÓN TRIBUTARIA
+{% endblock %}
+{% block stylesheets %}
+    <style>
+    .hidden-text {
+    visibility: hidden;
+    position: absolute;
+    left: -9999px;
+}
+</style>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {# base.html.twig #}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script>
+       $(document).ready(function() {
+            $('#usuarios').DataTable({
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' }, 
+                columnDefs: [
+                    { targets: [3,4], visible: false, searchable: true }
+                ],
+                pageLength: 10,
+                responsive: true
+            });
+        });
+
+
+    </script>
+    {% endblock %}
+
+    {% block body %}
+        <div class="d-flex">
+            <!-- Sidebar -->
+            {% include "menu.html.twig" with {'item':0} %}
+            <div class="p-4" style="flex-grow: 1;">
+                {% block cuerpo %}
+                    <h1>
+                        Registro de Licencias
+                    </h1>
+                    <p>
+                        Se encontraron
+                        {{ emitidos|length }}
+                        registros.
+                    </p>
+                    <table id="usuarios" class="display">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Acción
+                                </th>
+                                <th>
+                                    RUC
+                                </th>
+                                <th>
+                                    Razon Social
+                                </th>
+                                <th>
+                                    Actividad
+                                </th>
+                                <th>
+                                    Tipo
+                                </th>
+                                <th>
+                                    Nombre Comercial
+                                </th>
+                                <th>
+                                    Direccion
+                                </th>
+                                <th>
+                                    Teléfono
+                                </th>
+                                <th>
+                                    Estado
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sede in sedes %}
+                                <tr data-actividad="{{ sede.negocio.giro.actividad }}" data-denominacion="{{ sede.tipo.denominacion }}">
+                                    <td>
+                                        <a href="{{ path('ver-sede',{id: sede.id}) }}" class="btn btn-sm btn-info">
+                                            Ver detalle
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ sede.negocio.ruc }}
+                                    </td>
+                                    <td>
+                                        {{ sede.negocio.razonsocial }}
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ sede.negocio.giro.actividad }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ sede.tipo.denominacion }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ sede.nombrenegocio }}
+                                    </td>
+                                    <td>
+                                        {{ sede.tipovia }}
+                                        {{ sede.direccion }}
+                                    </td>
+                                    <td>
+                                        {{ sede.celular }}
+                                    </td>
+                                    <td>
+                                        {{ sede.estado == 0 ? 'Inactivo' : (sede.estado == 1 ? 'Vigente' : (sede.estado == 2 ? 'Desactivado' : '')) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+    

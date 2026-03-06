@@ -1,0 +1,410 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    ADMINISTRACIÓN TRIBUTARIA
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/negocio.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+    <div class="d-flex">
+        <!-- Sidebar -->
+        {% include "menu.html.twig" with {'item':1} %}
+
+        <!-- Contenido principal -->
+        <div class="p-4" style="flex-grow: 1;">
+            {% block cuerpo %}
+                <h1>Agregar Negocio</h1>
+                <form >
+                    <div class="container-fluid">
+                        <h4>Datos Principales</h4>
+                        <div class="row">
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="ruc" class="form-label">RUC</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="ruc" name="ruc" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="razon-social" class="form-label">Nombre/Razon Social</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="razon-social" name="razon-social" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="giro" class="form-label">Giro del negocio</label>
+                                    <select class="form-select" name="giro" id="giro">
+                                        <option disabled selected></option>
+                                        {% for giro in giros %}
+                                            <option value="{{giro.id}}">{{giro.actividad}}</option>
+                                        {% endfor %}
+                                        <option value="0" >Agregar Nuevo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="url-ficha" class="form-label">Ficha RUC</label>
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" id="ficha-ruc" name="ficha-ruc" accept="application/pdf" >
+                                        <input type="hidden" class="form-control" id="url-ficha" name="url-ficha" >
+                                    </div>
+                                    <a href="#" id="ver-ficha" target="_blank">Ver Ficha</a>
+                                </div>
+                            </div>
+                        </div>
+                        <h5>Datos del Representante</h5>
+
+                        <div class="row">
+                            <div class="col col-sm-3 col-12">
+                                <div class="mb-3">
+                                    <label for="dni-rep" class="form-label">DNI</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="dni-rep" name="dni-rep" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="nombre-rep" class="form-label">Nombres</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="nombre-rep" name="nombre-rep" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="paterno-rep" class="form-label">Ap. Paterno</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="paterno-rep" name="paterno-rep" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="materno-rep" class="form-label">AP. Materno</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="materno-rep" name="materno-rep" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-3 col-12">
+                                <div class="mb-3">
+                                    <label for="cel-rep" class="form-label">Celular</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="cel-rep" name="cel-rep" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-3 col-12">
+                                <div class="mb-3">
+                                    <label for="tipo-via-rep" class="form-label">Tipo Vía</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="tipo-via-rep" name="tipo-via-rep" list="tipos-via" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-6 col-12">
+                                <div class="mb-3">
+                                    <label for="dir-rep" class="form-label">Dirección</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dir-rep" name="dir-rep" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-3">
+                                <div class="mb-3">
+                                    <label for="dep-rep" class="form-label">Departamento</label>
+                                    <div class="input-group">
+                                        <select class="form-select" name="dep-rep" id="dep-rep">
+                                            <option disabled selected></option>
+                                            {% for dep in deps %}
+                                                <option value="{{dep.id}}">{{dep.nombre}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-3">
+                                <div class="mb-3">
+                                    <label for="prov-rep" class="form-label">Provincia</label>
+                                    <div class="input-group">
+                                        <select class="form-select" name="prov-rep" id="prov-rep">
+                                            <option disabled selected></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-3">
+                                <div class="mb-3">
+                                    <label for="dis-rep" class="form-label">Distrito</label>
+                                    <div class="input-group">
+                                        <select class="form-select" name="dis-rep" id="dis-rep">
+                                            <option selected disabled></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-sm-6  col-12 shadow-sm">
+                                <div class="row">
+                                    <h5>Datos de Sede</h5>
+                                    <div class="col col-sm-3 col-6">
+                                        <div class="mb-3">
+                                            <label for="tipo-sede" class="form-label">Tipo Negocio</label>
+                                            <select class="form-select" name="tipo-sede" id="tipo-sede">
+                                                <option disabled selected></option>
+                                                {% for tipo in tipos %}
+                                                    <option value="{{tipo.id}}">{{tipo.denominacion}}</option>
+                                                {% endfor %}
+                                                <option value="0" >Agregar Nuevo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-9 col-12">
+                                        <div class="mb-3">
+                                            <label for="nombre-sede" class="form-label">Nombre Local</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="nombre-sede" name="nombre-sede" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-9 col-12">
+                                        <div class="mb-3">
+                                            <label for="area-sede" class="form-label">Area del Local</label>
+                                            <div class="input-group">
+                                                <input type="number" min="0" class="form-control" id="area-sede" name="area-sede" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3 col-6">
+                                        <div class="mb-3">
+                                            <label for="cel-sede" class="form-label">Teléfono</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="cel-sede" name="cel-sede" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3 col-6">
+                                        <div class="mb-3">
+                                            <label for="tipo-via-sede" class="form-label">Tipo Vía</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="tipo-via-sede" name="tipo-via-sede" list="tipos-via" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-9 col-12">
+                                        <div class="mb-3">
+                                            <label for="direccion-sede" class="form-label">Dirección</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="direccion-sede" name="direccion-sede" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <div class="mb-3">
+                                            <label for="dep-sede" class="form-label">Departamento</label>
+
+                                            <select class="form-select" name="dep-sede" id="dep-sede">
+                                                <option disabled selected></option>
+                                                {% for dep in deps %}
+                                                    <option value="{{dep.id}}">{{dep.nombre}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <div class="mb-3">
+                                            <label for="prov-sede" class="form-label">Provincia</label>
+
+                                            <select class="form-select" name="prov-sede" id="prov-sede">
+                                                <option disabled selected></option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <div class="mb-3">
+                                            <label for="dis-sede" class="form-label">Distrito</label>
+
+                                            <select class="form-select" name="dis-sede" id="dis-sede">
+                                                <option disabled selected></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3 col-4">
+                                        <div class="mb-3">
+                                            <label for="horario-sede" class="form-label">Horario</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="horario-sede" name="horario-sede" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="cert-def-civil-sede" class="form-label">Cert. Defensa Civil</label>
+                                            <div class="input-group">
+                                                <input type="file" class="form-control" id="cert-def-civil-sede" name="cert-def-civil-sede">
+                                                <input type="hidden" id="url-def-civil-sede" name="url-def-civil-sede">
+                                            </div>
+                                            <a id="ver-def-civil" href="#" target="_blank">Ver Certificado</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="cert-comp-suelos-sede" class="form-label">Cert. Compatibilidad</label>
+                                            <div class="input-group">
+                                                <input type="file" class="form-control" id="cert-comp-suelos-sede" name="cert-comp-suelos-sede">
+                                                <input type="hidden" name="url-uso-suelo-sede" id="url-uso-suelo-sede" />
+                                            </div>
+                                            <a href="#" id="ver-certificado-suelos" target="_blank">Ver Certificado</a>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <div class="input-group">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="estado-sede" checked value="1">
+                                                    <label class="form-check-label" for="estado-sede">Activo</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col col-sm-6 col-12 shadow-sm">
+                                <div class="row">
+                                    <h5>Datos de Licencia</h5>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="tipo-licencia" class="form-label">Tipo de Licencia</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault1" value="0">
+                                                <label class="form-check-label" for="radioDefault1">
+                                                    Licencia temporal
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="1">
+                                                <label class="form-check-label" for="radioDefault2">
+                                                    Licencia Definitiva
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="resolucion-licencia" class="form-label">Resolución</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="resolucion-licencia" name="resolucion-licencia" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="expediente-licencia" class="form-label">Nro. expediente</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="expediente-licencia" name="expediente-licencia" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="numero-licencia" class="form-label">Nro. Licencia</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="numero-licencia" name="numero-licencia" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="dias-licencia" class="form-label">Días</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="dias-licencia" name="dias-licencia" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="ini-licencia" class="form-label">Fecha Inicio</label>
+                                            <div class="input-group">
+                                                <input type="date" class="form-control" id="ini-licencia" name="ini-licencia"required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="fin-licencia" class="form-label">Fin</label>
+                                            <div class="input-group">
+                                                <input type="date" class="form-control" id="fin-licencia" name="fin-licencia" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <button id="guardar" class="btn btn-primary">GUARDAR Y GENERAR</button>
+                    <button id="generar-licencia" class="btn btn-primary">GUARDAR Y diseño</button>
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="modalGiro" tabindex="-1" aria-labelledby="modalGiroLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalGiroLabel">Agregar Giro </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="nuevo-giro" class="form-control" placeholder="Nombre del giro">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="guardar-giro" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="modalTipo" tabindex="-1" aria-labelledby="modalTipoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTipoLabel">Agregar Tipo de Negocio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="nuevo-tipo" class="form-control" placeholder="Denominación del tipo de negocio">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="guardar-tipo" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Datalist con opciones -->
+    <datalist id="tipos-via">
+        {% for via in vias %}
+            <option value="{{via.nombre}}">
+            {% endfor %}
+        </datalist>
+
+    {% endblock %}

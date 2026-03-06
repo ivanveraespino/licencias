@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Licencia Municipal de Funcionamiento</title>
+        <style>
+            body { font-family: Arial, sans-serif; font-size: 12pt; }
+            .encabezado { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 20px; }
+            .tabla { width: 100%; margin-top: 20px; }
+            .tabla td { padding: 5px; }
+        </style>
+        
+    </head>
+    <body>
+
+
+
+        <table class="tabla">
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="height: 8mm;"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 140mm;"></td>
+                <td style="font-weight: bold;">{{ expediente }}</td>
+                
+            </tr>
+            <tr>
+                <td style="width: 140mm;"></td>
+                <td style="font-weight: bold;"><img src="data:image/png;base64,{{ qr }}" alt="QR Licencia" style="width:120px; height:120px;"></td>
+            </tr>
+        </table>
+
+        <table class="tabla">
+            <tr>
+                <td style="height: 43mm;"></td>
+            </tr>
+        </table>
+
+        <table class="tabla">
+            <tr >
+                <td style="padding-left: 48mm;"></td>
+                <td style="padding-bottom: 6.2mm; font-weight: bold; width: 130mm;" colspan="4">{{ razonSocial }}</td>
+            </tr>
+            <tr >
+                <td></td>
+                <td style="padding-bottom: 6.2mm; font-weight: bold;width: 130mm;" colspan="4">{{ nombresede }}</td>
+            </tr>
+            <tr >
+                <td ></td>
+                <td style="padding-bottom: 6.2mm; font-weight: bold;width: 130mm;" colspan="4">{{ direccionsede }}</td>
+            </tr>
+            <tr >
+                <td></td>
+                <td style="padding-bottom: 6.2mm; font-weight: bold;width: 130mm;" colspan="2">{{ ruc }} </td>
+                <td style="padding-bottom: 6.2mm; font-weight: bold;"><span style="">&nbsp;&nbsp;{{ area }}M2</span></td>
+            </tr>
+            <tr >
+                <td></td>
+                <td style="padding-bottom: 6.2mm; font-weight: bold;width: 130mm;" colspan="4">{{ giro }}</td>
+            </tr>
+            <tr >
+                <td></td>
+                <td style="padding-bottom: 6.2mm; font-weight: bold;width: 130mm;" colspan="4">{{ resolucion }}</td>
+            </tr>
+            <tr >
+                <td></td>
+                <td style="font-weight: bold;">{{ horario }}</td>
+                <td style="padding-left: 40mm; font-weight: bold;">{{ "now"|date('d') }} </td>
+                <td style="padding-left: 10mm; font-weight: bold;">{{ mes }} </td>
+                <td style="padding-left: 10mm; font-weight: bold;">{{ "now"|date('Y') }}</td>
+            </tr>
+        </table>
+
+
+
+    </body>
+</html>

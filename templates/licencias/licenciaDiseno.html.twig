@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Licencia Municipal de Funcionamiento</title>
+        <style>
+            @page { margin: 0; /* elimina márgenes de la hoja */ }
+            html, body { margin: 0; padding: 0; height: 100%; width: 100%; }
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+                background-image: url("{{ dominio }}/img/plantilla.jpg");
+                background-size: cover; /* Ajusta la imagen al tamaño de la hoja */
+                background-position: center;
+                background-repeat: no-repeat;
+                margin: 0;
+                padding: 0;
+            }
+            .contenido {
+                position: relative;
+                z-index: 10;
+                padding-left: 40mm;
+                padding-right: 40mm;
+                padding-top: 25mm;
+                font-family: Arial, sans-serif;
+                color: #000;
+            }
+            .encabezado { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 20px; }
+            .tabla { width: 100%; margin-top: 5px; }
+            .tabla td { padding: 3px; }
+        </style>
+     
+
+    </head>
+    <body>
+        <div class="contenido">
+            <table class="tabla">
+                <tr>
+                    <td style="width: 65mm; text-align: center;"><img src="{{dominio}}/img/logo_informe.png" style="width: 30mm; height: 33mm;"></td>
+                    <td style="width: 85mm;"></td>
+                    <td style="text-align: center;"><img src="data:image/png;base64,{{ qr }}" alt="QR Licencia" style="width:120px; height:120px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; font-family: Impact, sans-serif; font-size: 11px;"><span style="font-weight: bold;">MUNICIPALIDAD PROVINCIAL DE</span><br> <span style="font-weight: bold;">LA CONVENCIÓN</span><br><span style="font-family: Arial, Helvetica, sans-serif;">OFICINA DE ADMINISTRACIÓN TRIBUTARIA</span></td>
+                    <td ></td>
+                    <td style="text-align: center;"><img src="data:image/png;base64,{{ barcode }}" alt="Licencia" style="width:120px; height:auto;"> <br> Expediente: {{ expediente }}</td>
+                </tr>
+            </table>
+
+            <table class="tabla">
+                <tr style="margin-top: 5mm;">
+                    <td style="height: auto;">
+                        La Dirección de Administración Tributaria, en uso de sus facultades y en aplicación: Del artículo 79, numeral 3, inciso 3.6 de la ley N° 27972, Ley Orgánica de Municipalidades; el artículo 3 del "Texto Único  Ordenado de la Ley N° 28976, Ley Marco de Licencia de Funcionamiento", aprobado por el Decreto Supremo N° 163-2020-PCM; y habiendose cumplido con los requisitos establecidos <strong style="text-decoration: underline;"> SE CONCEDE LA PRESENTE:</strong>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="tabla">
+                <tr >
+                    <td >A</td>
+                    <td style="padding-bottom: 5mm; font-weight: bold; width: 105mm;" colspan="4">:{{ razonSocial }}</td>
+                </tr>
+                <tr >
+                    <td>Nombre Comercial</td>
+                    <td style="padding-bottom: 5mm; font-weight: bold;width: 105mm;" colspan="4">:{{ nombresede }}</td>
+                </tr>
+                <tr >
+                    <td >Dirección</td>
+                    <td style="padding-bottom: 5mm; font-weight: bold;width: 105mm;" colspan="4">:{{ direccionsede }}</td>
+                </tr>
+                <tr >
+                    <td>RUC</td>
+                    <td style="padding-bottom: 5mm; font-weight: bold;width: 90mm;" colspan="2">:{{ ruc }} </td>
+                    <td style="padding-bottom: 5mm; ">Area :<span style="font-weight: bold;">{{ area }}M2</span></td>
+                </tr>
+                <tr >
+                    <td>Giro del Negocio</td>
+                    <td style="padding-bottom: 5mm; font-weight: bold;width: 105mm;" colspan="4">:{{ giro }}</td>
+                </tr>
+                <tr >
+                    <td>Resolución</td>
+                    <td style="padding-bottom: 5mm; font-weight: bold;width: 105mm;" colspan="4">:{{ resolucion }}</td>
+                </tr>
+                <tr >
+                    <td>Horario de Atención</td>
+                    <td style="font-weight: bold;" colspan="2">:{{ horario }}</td>
+                    <td style="font-weight: bold;" colspan="2">Quillabamba {{ "now"|date('d') }} de {{mes}} del {{ "now"|date('Y') }}</td>
+
+            </table>
+        </div>
+
+
+
+
+
+    </body>
+</html>
