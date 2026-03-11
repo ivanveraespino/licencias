@@ -29,10 +29,11 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 final class HomeController extends AbstractController
 {
-    #[Route('/', name: 'root')]
+      #[Route('/', name: 'root_index')]
     public function inicio(): Response
     {
-        return $this->redirectToRoute('app_home'); // donde 'home' es el nombre de la ruta
+        // Redirige al nombre de la ruta de tu página de inicio
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route('/home', name: 'app_home')]
