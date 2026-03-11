@@ -29,6 +29,12 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 final class HomeController extends AbstractController
 {
+    #[Route('/', name: 'root')]
+    public function inicio(): Response
+    {
+        return $this->redirectToRoute('app_home'); // donde 'home' es el nombre de la ruta
+    }
+
     #[Route('/home', name: 'app_home')]
     public function index(EntityManagerInterface $em): Response
     {
@@ -55,9 +61,11 @@ final class HomeController extends AbstractController
     {
         $sede = $em->getRepository(Sede::class)->find($id);
         $licencias = $em->getRepository(Licencia::class)->findBy(['sede' => $id]);
+        $representante = $em->getRepository(Representante::class)->findOneBy(['negocio' => $sede->getNegocio()]);
         return $this->render('home/detalleNegocio.html.twig', [
             'sede' => $sede,
-            'licencias' => $licencias
+            'licencias' => $licencias,
+            'representante' => $representante
         ]);
     }
 
@@ -168,7 +176,7 @@ final class HomeController extends AbstractController
         $file->move($uploadsDir, $filename);
 
         // URL pública
-        $url = '/pdfs/' . $filename;
+        $url = '/uploads/' . $filename;
 
         return $this->json(['url' => $url]);
     }
@@ -235,7 +243,7 @@ final class HomeController extends AbstractController
         $provSede = $em->getRepository(Provincia::class)->find($idprovSede);
         $iddisSede = $request->request->get('dis-sede');
         $disSede = $em->getRepository(Distrito::class)->find($iddisSede);
-        $horarioSede = $request->request->get('horario-sede');
+
         $certCivilSede = $request->request->get('url-def-civil-sede');
         $certUsoSede = $request->request->get('url-uso-suelo-sede');
         $estadoSede = $request->request->get('estado-sede') ? 1 : 0;
@@ -254,7 +262,6 @@ final class HomeController extends AbstractController
         $sede->setTipovia($tipoviaSede);
         $sede->setNegocio($negocio);
         $sede->setArea($areaSede);
-        $sede->setHorario($horarioSede);
         $em->persist($sede);
         $em->flush();
 
@@ -265,12 +272,15 @@ final class HomeController extends AbstractController
         $resolucionLic = $request->request->get('resolucion-licencia');
         $expLic = $request->request->get('expediente-licencia');
         $numeroLic = $request->request->get('numero-licencia');
+        $urlresol = $request->request->get('url-resolucion-sede');
+        $horarioSede = $request->request->get('horario-sede');
 
         $licencia = new Licencia();
         $licencia->setTipo($tipoLic);
         $licencia->setDias($diasLic);
+        $licencia->setHorario($horarioSede);
         $licencia->setResolucion($resolucionLic);
-
+        $licencia->setUrlresolucion($urlresol);
         if (!empty($inicioLic)) {
             // Trim para evitar espacios accidentales que rompan el formato
             $fechaInicio = \DateTime::createFromFormat('Y-m-d', trim($inicioLic));
@@ -436,7 +446,6 @@ final class HomeController extends AbstractController
         $provSede = $em->getRepository(Provincia::class)->find($idprovSede);
         $iddisSede = $request->request->get('dis-sede');
         $disSede = $em->getRepository(Distrito::class)->find($iddisSede);
-        $horarioSede = $request->request->get('horario-sede');
         $certCivilSede = $request->request->get('url-def-civil-sede');
         $certUsoSede = $request->request->get('url-uso-suelo-sede');
         $estadoSede = $request->request->get('estado-sede') ? 1 : 0;
@@ -455,7 +464,6 @@ final class HomeController extends AbstractController
         $sede->setTipovia($tipoviaSede);
         $sede->setNegocio($negocio);
         $sede->setArea($areaSede);
-        $sede->setHorario($horarioSede);
         $em->persist($sede);
         $em->flush();
 
@@ -466,12 +474,17 @@ final class HomeController extends AbstractController
         $resolucionLic = $request->request->get('resolucion-licencia');
         $expLic = $request->request->get('expediente-licencia');
         $numeroLic = $request->request->get('numero-licencia');
+        $urlresol = $request->request->get('url-resolucion-sede');
+        $horarioSede = $request->request->get('horario-sede');
+
+
 
         $licencia = new Licencia();
         $licencia->setTipo($tipoLic);
         $licencia->setDias($diasLic);
         $licencia->setResolucion($resolucionLic);
-
+        $licencia->setUrlresolucion($urlresol);
+        $licencia->setHorario($horarioSede);
         if (!empty($inicioLic)) {
             // Trim para evitar espacios accidentales que rompan el formato
             $fechaInicio = \DateTime::createFromFormat('Y-m-d', trim($inicioLic));
@@ -502,7 +515,7 @@ final class HomeController extends AbstractController
         $licencia->setEstado(0);
         $licencia->setSede($sede);
         $licencia->setNumero($numeroLic);
-        
+
         $dominio = $request->getSchemeAndHttpHost();
         $dominio = $dominio . '/licencia/' . $numeroLic;
         $qrCode = new QrCode($dominio);
@@ -625,7 +638,7 @@ final class HomeController extends AbstractController
         ]);
     }
 
-     #[Route('/sede/{id}/agregar-licencia', name: 'agregar_licencia', methods: ['POST'])]
+    #[Route('/sede/{id}/agregar-licencia', name: 'agregar_licencia', methods: ['POST'])]
     public function agregarLicencia(
         int $id,
         Request $request,

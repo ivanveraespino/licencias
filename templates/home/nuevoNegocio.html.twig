@@ -52,7 +52,7 @@
                             </div>
                             <div class="col col-sm-6 col-12">
                                 <div class="mb-3">
-                                    <label for="url-ficha" class="form-label">Ficha RUC</label>
+                                    <label for="ficha-ruc" class="form-label">Ficha RUC</label>
                                     <div class="input-group">
                                         <input type="file" class="form-control" id="ficha-ruc" name="ficha-ruc" accept="application/pdf" >
                                         <input type="hidden" class="form-control" id="url-ficha" name="url-ficha" >
@@ -215,10 +215,7 @@
                                             <label for="dep-sede" class="form-label">Departamento</label>
 
                                             <select class="form-select" name="dep-sede" id="dep-sede">
-                                                <option disabled selected></option>
-                                                {% for dep in deps %}
-                                                    <option value="{{dep.id}}">{{dep.nombre}}</option>
-                                                {% endfor %}
+                                                <option  selected value="08">Cusco</option>
                                             </select>
                                         </div>
                                     </div>
@@ -227,8 +224,7 @@
                                             <label for="prov-sede" class="form-label">Provincia</label>
 
                                             <select class="form-select" name="prov-sede" id="prov-sede">
-                                                <option disabled selected></option>
-
+                                                <option  selected value="0809">La Convención</option>
                                             </select>
                                         </div>
                                     </div>
@@ -237,18 +233,11 @@
                                             <label for="dis-sede" class="form-label">Distrito</label>
 
                                             <select class="form-select" name="dis-sede" id="dis-sede">
-                                                <option disabled selected></option>
+                                                <option  selected value="080901">Santa Ana</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col col-sm-3 col-4">
-                                        <div class="mb-3">
-                                            <label for="horario-sede" class="form-label">Horario</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="horario-sede" name="horario-sede" required>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col col-sm-6 col-12">
                                         <div class="mb-3">
                                             <label for="cert-def-civil-sede" class="form-label">Cert. Defensa Civil</label>
@@ -293,13 +282,19 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault1" value="0">
                                                 <label class="form-check-label" for="radioDefault1">
-                                                    Licencia temporal
+                                                    Licencia Ordinaria
                                                 </label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="1">
                                                 <label class="form-check-label" for="radioDefault2">
-                                                    Licencia Definitiva
+                                                    Licencia Especial
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="2">
+                                                <label class="form-check-label" for="radioDefault2">
+                                                    Licencia Temporal
                                                 </label>
                                             </div>
                                         </div>
@@ -307,9 +302,15 @@
                                     <div class="col col-sm-6 col-12">
                                         <div class="mb-3">
                                             <label for="resolucion-licencia" class="form-label">Resolución</label>
-                                            <div class="input-group">
+                                            <div class="input-group pb-1">
                                                 <input type="text" class="form-control" id="resolucion-licencia" name="resolucion-licencia" required>
                                             </div>
+                                            <div class="input-group">
+                                                <input type="file" class="form-control" id="resolucion-sede" name="resolucion-sede">
+                                                <input type="hidden" id="url-resolucion-sede" name="url-resolucion-sede">
+                                            </div>
+                                            <a id="ver-resolucion" href="#" target="_blank">Ver Resolución</a>
+                                        
                                         </div>
                                     </div>
                                     <div class="col col-sm-6 col-12">
@@ -350,6 +351,14 @@
                                             <label for="fin-licencia" class="form-label">Fin</label>
                                             <div class="input-group">
                                                 <input type="date" class="form-control" id="fin-licencia" name="fin-licencia" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3 col-4">
+                                        <div class="mb-3">
+                                            <label for="horario-sede" class="form-label">Horario</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="horario-sede" name="horario-sede" required>
                                             </div>
                                         </div>
                                     </div>

@@ -34,6 +34,13 @@ class Licencia
     #[ORM\Column(type: 'string', length: 10 , nullable:true)]
     private ?string $numero;
 
+    
+    #[ORM\Column(type: 'string', length: 250)]
+    private ?string $urlresolucion;
+
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $horario;
+
     #[ORM\Column(type: 'string', length: 250)]
     private ?string $urllicencia;
 
@@ -56,6 +63,13 @@ class Licencia
     public function setFin(\DateTimeInterface $fin): self { $this->fin = $fin; return $this; }
     public function getUrllicencia(): ?string { return $this->urllicencia; }
     public function setUrllicencia(?string $urllicencia): self { $this->urllicencia = $urllicencia; return $this; }
+
+    public function getHorario(): ?string { return $this->horario; }
+    public function setHorario(?string $horario): self { $this->horario = $horario; return $this; }
+
+    public function getUrlresolucion(): ?string { return $this->urlresolucion; }
+    public function setUrlresolucion(?string $urlresolucion): self { $this->urlresolucion = $urlresolucion; return $this; }
+    
     public function getResolucion(): string { return $this->resolucion; }
     public function setResolucion(string $resolucion): self { $this->resolucion = $resolucion; return $this; }
     public function getExpediente(): ?string { return $this->expediente; }

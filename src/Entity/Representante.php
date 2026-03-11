@@ -34,6 +34,10 @@ class Representante
     #[ORM\Column(type: 'string', length: 250)]
     private string $direccion;
 
+
+    #[ORM\Column(type: 'string', length: 12)]
+    private ?string $celular;
+
     #[ORM\ManyToOne(targetEntity: Distrito::class)]
     #[ORM\JoinColumn(name: 'iddis', referencedColumnName: 'id')]
     private Distrito $distrito;
@@ -66,6 +70,10 @@ class Representante
     public function setTipovia(string $tipovia): self { $this->tipovia = $tipovia; return $this; }
     public function getDireccion(): string { return $this->direccion; }
     public function setDireccion(string $direccion): self { $this->direccion = $direccion; return $this; }
+
+    public function getCelular(): ?string { return $this->celular; }
+    public function setCelular(?string $celular): self { $this->celular = $celular; return $this; }
+
     public function getDistrito(): Distrito { return $this->distrito; }
     public function setDistrito(Distrito $distrito): self { $this->distrito = $distrito; return $this; }
     public function getProvincia(): Provincia { return $this->provincia; }
