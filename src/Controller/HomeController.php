@@ -29,6 +29,12 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 final class HomeController extends AbstractController
 {
+    #[Route('/', name: 'root_index')]
+    public function inicio(): Response
+    {
+        // Redirige al nombre de la ruta de tu página de inicio
+        return $this->redirectToRoute('app_home');
+    }
     #[Route('/home', name: 'app_home')]
     public function index(EntityManagerInterface $em): Response
     {
