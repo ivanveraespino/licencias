@@ -11,6 +11,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\CallbackTransformer;
 
 class RegistrationFormType extends AbstractType
 {
@@ -43,7 +46,44 @@ class RegistrationFormType extends AbstractType
                     ),
                 ],
             ])
+            ->add('nombre', TextType::class, [
+                'label' => 'Nombre',
+                'required' => false,
+                'constraints' => [
+                    new Length([
+                        'max' => 100,
+                        'maxMessage' => 'El nombre no puede superar {{ limit }} caracteres',
+                    ]),
+                ],
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Usuario' => 'ROLE_USER',
+                    'Administrador' => 'ROLE_ADMIN',
+                ],
+                'expanded' => true,  // Renderiza como Radios
+                'multiple' => false, // Solo permite seleccionar uno
+                'required' => true,
+            ])
+
         ;
+        $builder->get('roles')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($rolesAsArray): string {
+                    // Transformación: Array -> String (para mostrar en el Radio)
+                    // Si viene [["ROLE_ADMIN"]], extraemos el string interno.
+                    if (is_array($rolesAsArray)) {
+                        $firstElement = $rolesAsArray[0] ?? 'ROLE_USER';
+                        return is_array($firstElement) ? $firstElement[0] : $firstElement;
+                    }
+                    return 'ROLE_USER';
+                },
+                function ($roleAsString): array {
+                    // Transformación: String -> Array (para la Entidad)
+                    // SOLO devolvemos un nivel de array.
+                    return [$roleAsString];
+                }
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

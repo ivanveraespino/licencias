@@ -1,35 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registro de Usuario{% endblock %}
+{% block title %}
+    Registro de Usuario
+{% endblock %}
 
 {% block body %}
-   <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
-        <h1 class="text-center mb-4">Registro de Usuario</h1>
-        
-        {{ form_errors(registrationForm) }}
-        
-        {{ form_start(registrationForm) }}
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+            <h1 class="text-center mb-4">Registro de Usuario</h1>
+
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm) }}
             <div class="mb-3">
-                {{ form_row(registrationForm.username, { 
-                    label: 'Usuario',
-                    attr: {'class': 'form-control'} 
+                {{ form_row(registrationForm.username, {
+                label: 'Usuario',
+                attr: {'class': 'form-control'}
                 }) }}
             </div>
             <div class="mb-3">
-                {{ form_row(registrationForm.plainPassword, { 
-                    label: 'Contraseña',
-                    attr: {'class': 'form-control'} 
+                {{ form_row(registrationForm.plainPassword, {
+                label: 'Contraseña',
+                attr: {'class': 'form-control'}
                 }) }}
             </div>
+            <div class="mb-3">
+                {{ form_row(registrationForm.nombre, {
+                label: 'Nombre',
+                attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Rol del Usuario</label>
+                {# Deja que Symfony maneje las clases internas de los radios #}
+                {{ form_widget(registrationForm.roles) }}
+                {{ form_errors(registrationForm.roles) }}
+            </div>
+            
             <div class="mb-3 form-check">
                 {{ form_widget(registrationForm.agreeTerms, { attr: {'class': 'form-check-input'} }) }}
                 {{ form_label(registrationForm.agreeTerms, 'Aceptar términos', { label_attr: {'class': 'form-check-label'} }) }}
             </div>
-            
+
             <button type="submit" class="btn btn-primary w-100">Registrar</button>
-        {{ form_end(registrationForm) }}
+            {{ form_end(registrationForm) }}
+        </div>
     </div>
-</div>
 
 {% endblock %}

@@ -25,8 +25,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
+    #[ORM\Column(type: "json")]
     private array $roles = [];
+
+
+    #[ORM\Column(type: "string", length: 100, nullable: true)]
+    private ?string $nombre = null;
 
     /**
      * @var string The hashed password
@@ -51,6 +55,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(?string $nombre): self
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
     /**
      * A visual identifier that represents this user.
      *
@@ -61,25 +75,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // garantizamos que ROLE_USER siempre esté presente
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
+
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
-
+        // Esta lógica aplana el array si accidentalmente llega como [[...]]
+        $flatRoles = [];
+        array_walk_recursive($roles, function($item) use (&$flatRoles) {
+            $flatRoles[] = $item;
+        });
+    
+        $this->roles = array_unique($flatRoles);
         return $this;
     }
 
@@ -104,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __serialize(): array
     {
         $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
 
         return $data;
     }

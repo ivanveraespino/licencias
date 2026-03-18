@@ -108,7 +108,7 @@ document.getElementById('ficha-ruc').addEventListener('change', function () {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('ficha-ruc', file);
+    formData.append('file', file);
 
     // Aquí debes reemplazar '/upload-ficha' por tu ruta real de backend
     fetch('/subir-pdf', {
@@ -322,24 +322,30 @@ document.getElementById('guardar-tipo').addEventListener('click', function () {
 });
 
 
-const diasInput = document.getElementById('dias-licencia');
-const iniInput = document.getElementById('ini-licencia');
-const finInput = document.getElementById('fin-licencia');
+document.getElementById('resolucion-sede').addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
 
-function calcularFin() {
-    const dias = parseInt(diasInput.value, 10);
-    const fechaInicio = iniInput.value;
+    const formData = new FormData();
+    formData.append('file', file); // debe coincidir con el backend
 
-    if (!isNaN(dias) && fechaInicio) {
-        const inicio = new Date(fechaInicio);
-        inicio.setDate(inicio.getDate() + dias); // suma los días
-        // Formatea a yyyy-mm-dd
-        const yyyy = inicio.getFullYear();
-        const mm = String(inicio.getMonth() + 1).padStart(2, '0');
-        const dd = String(inicio.getDate()).padStart(2, '0');
-        finInput.value = `${yyyy}-${mm}-${dd}`;
-    }
-}
+    fetch('/subir-pdf', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.url) {
+                // Guardar la URL en el campo oculto
+                document.getElementById('url-resolucion-sede').value = data.url;
 
-diasInput.addEventListener('input', calcularFin);
-iniInput.addEventListener('change', calcularFin);
+                // Actualizar el enlace para ver el PDF
+                const link = document.getElementById('ver-resolucion');
+                link.href = data.url;
+                link.textContent = "Ver Certificado";
+            } else {
+                console.error('Error:', data.error);
+            }
+        })
+        .catch(error => console.error('Error subiendo archivo:', error));
+});

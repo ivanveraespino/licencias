@@ -3,8 +3,15 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
-
+    session: 
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+        storage_factory_id: session.storage.factory.native
+        
+        # Estas son las que causaban el error de nivel:
+        cookie_lifetime: 30 # 30 minutos (en segundos)
+        gc_maxlifetime: 30
     #esi: true
     #fragments: true
 
