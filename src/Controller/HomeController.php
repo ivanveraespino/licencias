@@ -670,4 +670,6 @@ final class HomeController extends AbstractController
         // Redirigir a la vista detalle de la sede
         return $this->redirectToRoute('ver-sede', ['id' => $sede->getId()]);
     }
+
+
 }
