@@ -10,8 +10,8 @@ framework:
         storage_factory_id: session.storage.factory.native
         
         # Estas son las que causaban el error de nivel:
-        cookie_lifetime: 30 # 30 minutos (en segundos)
-        gc_maxlifetime: 30
+        cookie_lifetime: 1800 # 30 minutos (en segundos)
+        gc_maxlifetime: 1800
     #esi: true
     #fragments: true
 

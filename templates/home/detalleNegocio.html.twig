@@ -139,13 +139,17 @@
                                     </p>
                                     <p>
                                         Fin:
-                                        {{ lic.fin|date('d-m-Y') }}
+                                        {% if lic.fin is not null %}
+                                            {{ lic.fin|date('d-m-Y') }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
                                     </p>
                                     <p>
                                         Horario:
                                         {{ lic.horario ?? 'N/R' }}
                                     </p>
-                                    {% if lic.fin > date('now') %}
+                                    {% if lic.fin is null or lic.fin > date('now') %}
                                         <p>
                                             Estado:
                                             <strong>

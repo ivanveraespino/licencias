@@ -23,7 +23,7 @@ class Licencia
     private \DateTimeInterface $inicio;
 
     #[ORM\Column(type: 'date')]
-    private \DateTimeInterface $fin;
+    private ?\DateTimeInterface $fin=null;
 
     #[ORM\Column(type: 'string', length: 50)]
     private string $resolucion;

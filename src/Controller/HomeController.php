@@ -278,7 +278,7 @@ final class HomeController extends AbstractController
 
         $licencia = new Licencia();
         $licencia->setTipo($tipoLic);
-        $licencia->setDias($diasLic);
+        $licencia->setDias((int)$diasLic);
         $licencia->setHorario($horarioSede);
         $licencia->setResolucion($resolucionLic);
         $licencia->setUrlresolucion($urlresol);
