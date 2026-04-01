@@ -164,20 +164,21 @@ final class HomeController extends AbstractController
         $file = $request->files->get('file'); // el input debe llamarse "file"
 
         if (!$file || $file->getClientOriginalExtension() !== 'pdf') {
-            return $this->json(['error' => 'Debe subir un archivo PDF vlido'], 400);
+            return $this->json(['error' => 'Debe subir un archivo PDF válido'], 400);
         }
 
         // Carpeta donde se guardará (ejemplo: public/uploads)
-        $uploadsDir = $this->getParameter('kernel.project_dir') . '/public/uploads';
+        $uploadsDir = $this->getParameter('kernel.project_dir') . '/public/pdfs';
 
         // Nombre único para evitar colisiones
         $filename = uniqid() . '.' . $file->guessExtension();
 
         // Mover archivo
         $file->move($uploadsDir, $filename);
+        chmod($uploadsDir . '/' . $filename, 0644); // Da permiso de lectura pública
 
         // URL pública
-        $url = '/uploads/' . $filename;
+        $url = '/pdfs/' . $filename;
 
         return $this->json(['url' => $url]);
     }
