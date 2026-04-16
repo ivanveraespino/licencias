@@ -51,9 +51,11 @@ final class HomeController extends AbstractController
         $stmt = $conn->prepare($sql);
         $emitidos = $stmt->executeQuery()->fetchAllAssociative();
         $sedes = $em->getRepository(Sede::class)->findAll();
+        $licencias = $em->getRepository(Licencia::class)->findBy([], ['id' => 'DESC']);
         return $this->render('home/index.html.twig', [
             'emitidos' => $emitidos,
-            'sedes' => $sedes
+            'sedes' => $sedes,
+            'licencias'=>$licencias
         ]);
     }
 
@@ -276,6 +278,7 @@ final class HomeController extends AbstractController
         $numeroLic = $request->request->get('numero-licencia');
         $urlresol = $request->request->get('url-resolucion-sede');
         $horarioSede = $request->request->get('horario-sede');
+        $nroAcervo = $request->request->get('nro-acervo');
 
         $licencia = new Licencia();
         $licencia->setTipo($tipoLic);
@@ -283,6 +286,7 @@ final class HomeController extends AbstractController
         $licencia->setHorario($horarioSede);
         $licencia->setResolucion($resolucionLic);
         $licencia->setUrlresolucion($urlresol);
+        $licencia->setAcervo($nroAcervo);
         if (!empty($inicioLic)) {
             // Trim para evitar espacios accidentales que rompan el formato
             $fechaInicio = \DateTime::createFromFormat('Y-m-d', trim($inicioLic));

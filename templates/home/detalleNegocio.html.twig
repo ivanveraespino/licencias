@@ -23,7 +23,7 @@
         <div class="p-4" style="flex-grow: 1;">
             {% block cuerpo %}
                 <h1>
-                    {{sede.tipo.denominacion }}
+                    
                     {{ sede.nombrenegocio }}
                 </h1>
                 <h6 class="text-secondary">
@@ -33,7 +33,7 @@
                     {{ sede.negocio.razonsocial }}
                 </h6>
                 <h6 class="text-secondary">
-                    {{ sede.negocio.giro.actividad }}
+                    {{ sede.negocio.giro.actividad }} - {{sede.tipo.denominacion }}
                 </h6>
                 <span><a href="{{ sede.negocio.urlficha ?? '#' }}">Ver Ficha RUC</a></span>
                 <hr>
@@ -83,7 +83,7 @@
                         <p>
                             Certificado de Compatibilidad de Uso de Suelo:
                             <strong>
-                                <a href="{{ sede.urlcompatibilidadsuelos ? '' ~ sede.urldefensacivil : '#' }}" target="_blank">
+                                <a href="{{ sede.urlcompatibilidadsuelos ? '' ~ sede.urlcompatibilidadsuelos : '#' }}" target="_blank">
                                     Abrir documento
                                 </a>
                             </strong>
@@ -128,6 +128,8 @@
                                     <p>
                                         Expediente:
                                         {{ lic.expediente }}
+                                        <br>
+                                        Número de Acervo: {{lic.acervo}}
                                     </p>
                                     <p>
                                         Días:
@@ -139,11 +141,7 @@
                                     </p>
                                     <p>
                                         Fin:
-                                        {% if lic.fin is not null %}
-                                            {{ lic.fin|date('d-m-Y') }}
-                                        {% else %}
-                                            -
-                                        {% endif %}
+                                        {{ lic.fin ? lic.fin|date('d/m/Y') : '-' }}
                                     </p>
                                     <p>
                                         Horario:
@@ -153,8 +151,14 @@
                                         <p>
                                             Estado:
                                             <strong>
-                                                {{ lic.estado == 0 ? 'Sin Firmar' : 'Vigente' }}
+                                                {{ lic.estado == 0 ? 'Sin Firmar ' : 'Vigente ' }}
                                             </strong>
+                                            {% if lic.estado == 0 and is_granted('ROLE_ADMIN') %}
+                                                <a href="/pdfs/{{ lic.urllicencia ?? '#' }}" target="_blanck">
+                                                    ver Licencia
+                                                </a>
+                                            {% endif %}
+
                                             <!-- and is_granted('ROLE_ADMIN')-->
                                             {% if lic.estado == 0 and is_granted('ROLE_ADMIN') %}
                                                 <form action="{{ path('subir_pdfs', { id: lic.id }) }}" method="post" enctype="multipart/form-data">
@@ -191,9 +195,9 @@
                     {% endfor %}
                     <br>
                     {% if  is_granted('ROLE_ADMIN') %}
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLicencia">
-                        Agregar Licencia
-                    </a>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLicencia">
+                            Agregar Licencia
+                        </a>
                     {% endif %}
                 </div>
                 <div class="modal fade" id="modalLicencia" tabindex="-1" aria-labelledby="modalLicenciaLabel" aria-hidden="true">
@@ -235,47 +239,71 @@
                                                     <label for="resolucion-licencia" class="form-label">
                                                         Resolución
                                                     </label>
-                                                    <input type="text" class="form-control" id="resolucion-licencia" name="resolucion-licencia" required></div>
-                                                    <div class="col-sm-6 col-12 mb-3">
-                                                        <label for="expediente-licencia" class="form-label">
-                                                            Nro. expediente
-                                                        </label>
-                                                        <input type="text" class="form-control" id="expediente-licencia" name="expediente-licencia" required></div>
-                                                        <div class="col-sm-6 col-12 mb-3">
-                                                            <label for="numero-licencia" class="form-label">
-                                                                Nro. Licencia
-                                                            </label>
-                                                            <input type="text" class="form-control" id="numero-licencia" name="numero-licencia" required></div>
-                                                            <div class="col-sm-6 col-12 mb-3">
-                                                                <label for="dias-licencia" class="form-label">
-                                                                    Días
-                                                                </label>
-                                                                <input type="number" class="form-control" id="dias-licencia" name="dias-licencia" required></div>
-                                                                <div class="col-sm-6 col-12 mb-3">
-                                                                    <label for="ini-licencia" class="form-label">
-                                                                        Fecha Inicio
-                                                                    </label>
-                                                                    <input type="date" class="form-control" id="ini-licencia" name="ini-licencia" required></div>
-                                                                    <div class="col-sm-6 col-12 mb-3">
-                                                                        <label for="fin-licencia" class="form-label">
-                                                                            Fecha Fin
-                                                                        </label>
-                                                                        <input type="date" class="form-control" id="fin-licencia" name="fin-licencia"></div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-success">
-                                                                            Guardar Licencia
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                            Cancelar
-                                                                        </button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
+                                                    <input type="text" class="form-control" id="resolucion-licencia" name="resolucion-licencia" required>
+                                                    <div class="input-group">
+                                                        <input type="file" class="form-control" id="resolucion-sede" name="resolucion-sede">
+                                                        <input type="hidden" id="url-resolucion-sede" name="url-resolucion-sede">
+                                                    </div>
+                                                    <a id="ver-resolucion" href="#" target="_blank">Ver Resolución</a>
+                                                
+                                                </div>
+                                                <div class="col col-sm-4 col-12">
+                                                    <div class="mb-3">
+                                                        <label for="expediente-licencia" class="form-label">Nro. expediente</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="expediente-licencia" name="expediente-licencia" required>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            {% endblock %}
-                                        </div>
+                                                <div class="col col-sm-4 col-12">
+                                                    <div class="mb-3">
+                                                        <label for="numero-licencia" class="form-label">Nro. Licencia</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="numero-licencia" name="numero-licencia" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-sm-4 col-12">
+                                                    <div class="mb-3">
+                                                        <label for="nro-acervo" class="form-label">Nro. Acervo</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="nro-acervo" name="nro-acervo" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-12 mb-3">
+                                                    <label for="dias-licencia" class="form-label">
+                                                        Días
+                                                    </label>
+                                                    <input type="number" class="form-control" id="dias-licencia" name="dias-licencia" required>
+                                                </div>
+                                                <div class="col-sm-6 col-12 mb-3">
+                                                    <label for="ini-licencia" class="form-label">
+                                                        Fecha Inicio
+                                                    </label>
+                                                    <input type="date" class="form-control" id="ini-licencia" name="ini-licencia" required>
+                                                </div>
+                                                <div class="col-sm-6 col-12 mb-3">
+                                                    <label for="fin-licencia" class="form-label">
+                                                        Fecha Fin
+                                                    </label>
+                                                    <input type="date" class="form-control" id="fin-licencia" name="fin-licencia">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success">
+                                                    Guardar Licencia
+                                                </button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Cancelar
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
-                                {% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}

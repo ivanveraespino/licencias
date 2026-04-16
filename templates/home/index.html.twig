@@ -78,46 +78,59 @@
                                 <th>
                                     Estado
                                 </th>
+                                <th style="display:none;">
+                                    acervo
+                                </th>
+                                <th style="display:none;">
+                                    denominación
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for sede in sedes %}
-                                <tr data-actividad="{{ sede.negocio.giro.actividad }}" data-denominacion="{{ sede.tipo.denominacion }}">
+                            {% set sede = 0 %}
+                            {% for lic in licencias %}
+                                {% if lic.sede.id != sede %}
+                                <tr data-actividad="{{ lic.sede.negocio.giro.actividad }}" data-denominacion="{{ lic.sede.tipo.denominacion }}" data-acervo="{{ lic.acervo }}">
                                     <td>
-                                        <a href="{{ path('ver-sede',{id: sede.id}) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ path('ver-sede',{id: lic.sede.id}) }}" class="btn btn-sm btn-info">
                                             Ver detalle
                                         </a>
                                     </td>
                                     <td>
-                                        {{ sede.negocio.ruc }}
+                                        {{ lic.sede.negocio.ruc }}
                                     </td>
                                     <td>
-                                        {{ sede.negocio.razonsocial }}
+                                        {{ lic.sede.negocio.razonsocial }}
                                     </td>
                                     <td>
                                         <span>
-                                            {{ sede.negocio.giro.actividad }}
+                                            {{ lic.sede.negocio.giro.actividad }}
                                         </span>
                                     </td>
                                     <td>
                                         <span>
-                                            {{ sede.tipo.denominacion }}
+                                            {{ lic.sede.tipo.denominacion }}
                                         </span>
                                     </td>
                                     <td>
-                                        {{ sede.nombrenegocio }}
+                                        {{ lic.sede.nombrenegocio }}
                                     </td>
                                     <td>
-                                        {{ sede.tipovia }}
-                                        {{ sede.direccion }}
+                                        {{ lic.sede.tipovia }}
+                                        {{ lic.sede.direccion }}
                                     </td>
                                     <td>
-                                        {{ sede.celular }}
+                                        {{ lic.sede.celular }}
                                     </td>
                                     <td>
-                                        {{ sede.estado == 0 ? 'Inactivo' : (sede.estado == 1 ? 'Vigente' : (sede.estado == 2 ? 'Desactivado' : '')) }}
+                                        {{ lic.estado == 0 ? 'Sin Firmar' : (lic.estado == 1 ? 'Vigente' : (lic.estado == 2 ? 'Vencido' : '')) }}
                                     </td>
+                                    <td style="display:none;">{{lic.acervo}}</td> 
+                                    <td style="display:none;">{{lic.sede.tipo.denominacion}}</td> 
                                 </tr>
+                                {% endif %}
+                                
+                                
                             {% endfor %}
                         </tbody>
                     </table>

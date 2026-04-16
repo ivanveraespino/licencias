@@ -41,6 +41,9 @@ class Licencia
     #[ORM\Column(type: 'string', length: 50)]
     private ?string $horario;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $acervo;
+
     #[ORM\Column(type: 'string', length: 250)]
     private ?string $urllicencia;
 
@@ -59,10 +62,14 @@ class Licencia
     public function setDias(int $dias): self { $this->dias = $dias; return $this; }
     public function getInicio(): \DateTimeInterface { return $this->inicio; }
     public function setInicio(\DateTimeInterface $inicio): self { $this->inicio = $inicio; return $this; }
-    public function getFin(): \DateTimeInterface { return $this->fin; }
+    public function getFin(): ?\DateTimeInterface { return $this->fin; }
     public function setFin(\DateTimeInterface $fin): self { $this->fin = $fin; return $this; }
+    
     public function getUrllicencia(): ?string { return $this->urllicencia; }
     public function setUrllicencia(?string $urllicencia): self { $this->urllicencia = $urllicencia; return $this; }
+
+    public function getAcervo(): ?string { return $this->acervo; }
+    public function setAcervo(?string $acervo): self { $this->acervo = $acervo; return $this; }
 
     public function getHorario(): ?string { return $this->horario; }
     public function setHorario(?string $horario): self { $this->horario = $horario; return $this; }

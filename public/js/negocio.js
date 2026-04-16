@@ -184,10 +184,39 @@ document.getElementById('cert-def-civil-sede').addEventListener('change', functi
         .catch(error => console.error('Error subiendo archivo:', error));
 });
 
-document.getElementById('guardar').addEventListener('click', function (e) {
-    e.preventDefault(); // Evita el submit tradicional
+// 1. Asegúrate de obtener el formulario correctamente
+const form = document.querySelector('form');
 
+document.getElementById('guardar').addEventListener('click', function (e) {
+    // 2. IMPORTANTE: Detener el envío natural SIEMPRE al inicio
+    e.preventDefault(); 
+    e.stopPropagation();
     const form = document.querySelector('form');
+    
+    const rucInput = document.getElementById('ruc');
+    const dniInput = document.getElementById('dni-rep');
+
+    // Validación de longitud manual adicional
+    if (rucInput.value.length !== 11) {
+        alert("El RUC debe tener exactamente 11 dígitos");
+        rucInput.focus();
+        return;
+    }
+
+    if (dniInput.value.length !== 8) {
+        alert("El DNI debe tener exactamente 8 dígitos");
+        dniInput.focus();
+        return;
+    }
+
+    // 3. Validar si los campos 'required' están llenos
+    if (!form.checkValidity()) {
+        // Si falta algo, activamos los estilos de error de Bootstrap
+        form.classList.add('was-validated');
+        // Obligamos al navegador a mostrar el mensaje de error
+        form.reportValidity(); 
+        return; // Detenemos la ejecución aquí, NO llega al fetch
+    }
     const formData = new FormData(form);
 
     fetch('/guardar-negocio', {
@@ -199,14 +228,14 @@ document.getElementById('guardar').addEventListener('click', function (e) {
             if (data.success) {
                 alert("Datos guardados correctamente");
                 // Aquí podrías redirigir o generar un PDF
-                if (data.pdfUrl) { 
-                    window.open(data.pdfUrl, '_blank'); 
+                if (data.pdfUrl) {
+                    window.open(data.pdfUrl, '_blank');
                 }
                 // Abrir el PDF en una nueva ventana
 
                 window.location.href = '/home';
-                
-                
+
+
             } else {
                 alert("Error al guardar: " + data.error);
             }
@@ -228,14 +257,14 @@ document.getElementById('generar-licencia').addEventListener('click', function (
             if (data.success) {
                 alert("Datos guardados correctamente");
                 // Aquí podrías redirigir o generar un PDF
-                if (data.pdfUrl) { 
-                    window.open(data.pdfUrl, '_blank'); 
+                if (data.pdfUrl) {
+                    window.open(data.pdfUrl, '_blank');
                 }
                 // Abrir el PDF en una nueva ventana
 
                 window.location.href = '/home';
-                
-                
+
+
             } else {
                 alert("Error al guardar: " + data.error);
             }

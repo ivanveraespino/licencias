@@ -18,7 +18,7 @@
         <div class="p-4" style="flex-grow: 1;">
             {% block cuerpo %}
                 <h1>Agregar Negocio</h1>
-                <form >
+                <form class="needs-validation" novalidate>
                     <div class="container-fluid">
                         <h4>Datos Principales</h4>
                         <div class="row">
@@ -26,7 +26,8 @@
                                 <div class="mb-3">
                                     <label for="ruc" class="form-label">RUC</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" id="ruc" name="ruc" required>
+                                        <input type="number" class="form-control" id="ruc" name="ruc" required maxlength="11" pattern="\d{11}" 
+                                        title="El RUC debe tener 11 dígitos">
                                     </div>
                                 </div>
                             </div>
@@ -41,7 +42,7 @@
                             <div class="col col-sm-6 col-12">
                                 <div class="mb-3">
                                     <label for="giro" class="form-label">Giro del negocio</label>
-                                    <select class="form-select" name="giro" id="giro">
+                                    <select class="form-select" name="giro" id="giro" required>
                                         <option disabled selected></option>
                                         {% for giro in giros %}
                                             <option value="{{giro.id}}">{{giro.actividad}}</option>
@@ -68,7 +69,8 @@
                                 <div class="mb-3">
                                     <label for="dni-rep" class="form-label">DNI</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" id="dni-rep" name="dni-rep" required>
+                                        <input type="number" class="form-control" id="dni-rep" name="dni-rep" required maxlength="8" pattern="\d{8}" 
+                                        title="El DNI debe tener 8 dígitos">
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +126,7 @@
                                 <div class="mb-3">
                                     <label for="dep-rep" class="form-label">Departamento</label>
                                     <div class="input-group">
-                                        <select class="form-select" name="dep-rep" id="dep-rep">
+                                        <select class="form-select" name="dep-rep" id="dep-rep" required>
                                             <option disabled selected></option>
                                             {% for dep in deps %}
                                                 <option value="{{dep.id}}">{{dep.nombre}}</option>
@@ -137,7 +139,7 @@
                                 <div class="mb-3">
                                     <label for="prov-rep" class="form-label">Provincia</label>
                                     <div class="input-group">
-                                        <select class="form-select" name="prov-rep" id="prov-rep">
+                                        <select class="form-select" name="prov-rep" id="prov-rep" required>
                                             <option disabled selected></option>
                                         </select>
                                     </div>
@@ -147,7 +149,7 @@
                                 <div class="mb-3">
                                     <label for="dis-rep" class="form-label">Distrito</label>
                                     <div class="input-group">
-                                        <select class="form-select" name="dis-rep" id="dis-rep">
+                                        <select class="form-select" name="dis-rep" id="dis-rep" required>
                                             <option selected disabled></option>
                                         </select>
                                     </div>
@@ -161,7 +163,7 @@
                                     <div class="col col-sm-3 col-6">
                                         <div class="mb-3">
                                             <label for="tipo-sede" class="form-label">Tipo Negocio</label>
-                                            <select class="form-select" name="tipo-sede" id="tipo-sede">
+                                            <select class="form-select" name="tipo-sede" id="tipo-sede" required>
                                                 <option disabled selected></option>
                                                 {% for tipo in tipos %}
                                                     <option value="{{tipo.id}}">{{tipo.denominacion}}</option>
@@ -182,7 +184,7 @@
                                         <div class="mb-3">
                                             <label for="area-sede" class="form-label">Area del Local</label>
                                             <div class="input-group">
-                                                <input type="number" min="0" class="form-control" id="area-sede" name="area-sede" required>
+                                                <input type="number" min="0" step="any" class="form-control" id="area-sede" name="area-sede" required>
                                             </div>
                                         </div>
                                     </div>
@@ -263,7 +265,7 @@
                                         <div class="mb-3">
                                             <div class="input-group">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="estado-sede" checked value="1">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="estado-sede" name="estado-sede" checked value="1">
                                                     <label class="form-check-label" for="estado-sede">Activo</label>
                                                 </div>
                                             </div>
@@ -280,20 +282,20 @@
                                         <div class="mb-3">
                                             <label for="tipo-licencia" class="form-label">Tipo de Licencia</label>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault1" value="0">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault1" checked value="0">
                                                 <label class="form-check-label" for="radioDefault1">
                                                     Licencia Ordinaria
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="1">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2"  value="1">
                                                 <label class="form-check-label" for="radioDefault2">
                                                     Licencia Especial
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="2">
-                                                <label class="form-check-label" for="radioDefault2">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault3"  value="2">
+                                                <label class="form-check-label" for="radioDefault3">
                                                     Licencia Temporal
                                                 </label>
                                             </div>
@@ -313,7 +315,7 @@
                                         
                                         </div>
                                     </div>
-                                    <div class="col col-sm-6 col-12">
+                                    <div class="col col-sm-4 col-12">
                                         <div class="mb-3">
                                             <label for="expediente-licencia" class="form-label">Nro. expediente</label>
                                             <div class="input-group">
@@ -321,11 +323,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-sm-6 col-12">
+                                    <div class="col col-sm-4 col-12">
                                         <div class="mb-3">
                                             <label for="numero-licencia" class="form-label">Nro. Licencia</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="numero-licencia" name="numero-licencia" required>
+                                                <input type="text" class="form-control" id="numero-licencia" name="numero-licencia">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-4 col-12">
+                                        <div class="mb-3">
+                                            <label for="nro-acervo" class="form-label">Nro. Acervo</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="nro-acervo" name="nro-acervo" required>
                                             </div>
                                         </div>
                                     </div>
@@ -333,7 +343,7 @@
                                         <div class="mb-3">
                                             <label for="dias-licencia" class="form-label">Días</label>
                                             <div class="input-group">
-                                                <input type="number" class="form-control" id="dias-licencia" name="dias-licencia" required>
+                                                <input type="number" class="form-control" id="dias-licencia" name="dias-licencia">
                                             </div>
                                         </div>
                                     </div>
@@ -367,8 +377,8 @@
                             </div>
                         </div>
                     </div>
-                    <button id="guardar" class="btn btn-primary">GUARDAR Y GENERAR</button>
-                    <button id="generar-licencia" class="btn btn-primary">GUARDAR Y diseño</button>
+                    <button type="submit" id="guardar" class="btn btn-primary">GUARDAR Y GENERAR</button>
+                    <button type="submit" id="generar-licencia" class="btn btn-primary" style="display: none;">GUARDAR Y diseño</button>
                 </form>
             {% endblock %}
         </div>
