@@ -26,7 +26,7 @@
                                 <div class="mb-3">
                                     <label for="ruc" class="form-label">RUC</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" id="ruc" name="ruc" required maxlength="11" pattern="\d{11}" 
+                                        <input type="number" class="form-control" id="ruc" name="ruc"  maxlength="11" pattern="\d{11}" 
                                         title="El RUC debe tener 11 dígitos">
                                     </div>
                                 </div>
@@ -35,14 +35,14 @@
                                 <div class="mb-3">
                                     <label for="razon-social" class="form-label">Nombre/Razon Social</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="razon-social" name="razon-social" required>
+                                        <input type="text" class="form-control" id="razon-social" name="razon-social" >
                                     </div>
                                 </div>
                             </div>
                             <div class="col col-sm-6 col-12">
                                 <div class="mb-3">
                                     <label for="giro" class="form-label">Giro del negocio</label>
-                                    <select class="form-select" name="giro" id="giro" required>
+                                    <select class="form-select" name="giro" id="giro" >
                                         <option disabled selected></option>
                                         {% for giro in giros %}
                                             <option value="{{giro.id}}">{{giro.actividad}}</option>
@@ -102,7 +102,7 @@
                                 <div class="mb-3">
                                     <label for="cel-rep" class="form-label">Celular</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" id="cel-rep" name="cel-rep" required>
+                                        <input type="number" class="form-control" id="cel-rep" name="cel-rep" >
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +192,7 @@
                                         <div class="mb-3">
                                             <label for="cel-sede" class="form-label">Teléfono</label>
                                             <div class="input-group">
-                                                <input type="number" class="form-control" id="cel-sede" name="cel-sede" required>
+                                                <input type="number" class="form-control" id="cel-sede" name="cel-sede" >
                                             </div>
                                         </div>
                                     </div>

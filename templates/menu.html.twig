@@ -1,8 +1,13 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark min-vh-100" style="width: 250px; ">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <span class="fs-4">LICENCIAS DE FUNCIONAMIENTO</span>
-        
+
     </a>
+    <li>
+        <span class="dropdown-item-text text-warning text-center">
+            Expira en: <strong id="session-timer">--:--</strong>
+        </span>
+    </li>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
@@ -17,12 +22,16 @@
                 </a>
             </li>
         {% endif %}
-            
-        <li>
-            <a href="#" class="nav-link text-white">
-                <i class="bi bi-bag"></i> Reportes
-            </a>
-        </li>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('app_reportes') }}" class="nav-link {{ item==2 ? 'active' }} text-white">
+                    <i class="bi bi-bag"></i> Reportes
+                </a>
+            </li>
+        {% endif %}
+
+
     </ul>
     <hr>
     <div class="dropdown">
@@ -34,9 +43,10 @@
             <li><a class="dropdown-item" href="#">Perfil</a></li>
 
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li><a class="dropdown-item" href="{{path('app_register')}}">Registrar Nuevo</a></li>
+                <li><a class="dropdown-item" href="{{path('app_register')}}">Registrar Nuevo</a></li>
             {% endif %}
             <li><hr class="dropdown-divider"></li>
+
             <li><a class="dropdown-item" href="{{path('app_logout')}}">Cerrar sesión</a></li>
         </ul>
     </div>

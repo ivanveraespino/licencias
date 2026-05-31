@@ -7,8 +7,12 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
+        <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <script src="{{ asset('js/datatables.min.js') }}"></script>
         
+        {{ importmap('app') }}
+
     </head>
     <body>
         {% block body %}
@@ -19,18 +23,66 @@
                 <!-- Contenido principal -->
                 <div class="p-4" style="flex-grow: 1;">
                     {% block cuerpo %}
-                        
+
                     {% endblock %}
                 </div>
             </div>
         {% endblock %}
         {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
             {{ encore_entry_script_tags('app') }}
-            {% block importmap %}
-                {{ importmap('app') }}
-            {% endblock %}
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+           
+            <script>
+                function startSessionTimer() {
+                    const display = document.querySelector('#session-timer');
+                    const durationInSeconds = 3600; // Coincide con tu cookie_lifetime
+
+                    // 1. REFRESCAR: Cada vez que la página carga, reiniciamos el tiempo en localStorage
+                    // Esto simula el refresco de sesión que hace Symfony en el servidor
+                    const newExpiration = Date.now() + (durationInSeconds * 1000);
+                    localStorage.setItem('sessionExpiration', newExpiration);
+
+                    const interval = setInterval(function () {
+                        const now = Date.now();
+                        const expiration = parseInt(localStorage.getItem('sessionExpiration'));
+                        const timeLeft = Math.ceil((expiration - now) / 1000);
+
+                        // 2. VERIFICACIÓN DE EXPIRACIÓN
+                        if (timeLeft <= 0) {
+                            clearInterval(interval);
+                            localStorage.removeItem('sessionExpiration');
+                            if (display) display.textContent = "00:00";
+
+                            // Opcional: Solo redirigir si no estamos ya en login
+                            if (window.location.pathname !== '/login') {
+                                window.location.href = '/login?timeout=1';
+                            }
+                            return;
+                        }
+
+                        // 3. FORMATEO Y MOSTRAR
+                        if (display) {
+                            let minutes = Math.floor(timeLeft / 60);
+                            let seconds = timeLeft % 60;
+                            display.textContent =
+                            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        }
+                    }, 1000);
+                }
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    // No ejecutar en la página de login
+                    if (window.location.pathname === '/login') {
+                        localStorage.removeItem('sessionExpiration');
+                        return;
+                    }
+                    startSessionTimer();
+                });
+
+
+            </script>
+
         {% endblock %}
     </body>
 </html>

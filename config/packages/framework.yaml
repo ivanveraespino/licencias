@@ -12,6 +12,7 @@ framework:
         # Estas son las que causaban el error de nivel:
         cookie_lifetime: 3600 # 30 minutos (en segundos)
         gc_maxlifetime: 3600
+        metadata_update_threshold: 0
     #esi: true
     #fragments: true
 

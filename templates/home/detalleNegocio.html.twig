@@ -23,7 +23,7 @@
         <div class="p-4" style="flex-grow: 1;">
             {% block cuerpo %}
                 <h1>
-                    
+
                     {{ sede.nombrenegocio }}
                 </h1>
                 <h6 class="text-secondary">
@@ -62,7 +62,7 @@
                         <p>
                             Area:
                             <strong>
-                                {{ sede.area ?? '0' }}
+                                {{ (sede.area ?? 0)|number_format(2, '.', '') + 0 }}
                                 M2
                             </strong>
                         </p>
@@ -212,98 +212,97 @@
                             <div class="modal-body">
                                 <form action="{{ path('agregar_licencia', { id: sede.id }) }}" method="post" enctype="multipart/form-data">
                                     <div class="row">
-                                        <div class="col-sm-6 col-12 mb-3">
+                                        <div class="col-12 mb-3">
                                             <label class="form-label">
                                                 Tipo de Licencia
                                             </label>
                                             <div class="form-check">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault1" value="0">
-                                                    <label class="form-check-label" for="radioDefault1">
-                                                        Licencia Ordinaria
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="1">
-                                                    <label class="form-check-label" for="radioDefault2">
-                                                        Licencia Especial
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="2">
-                                                    <label class="form-check-label" for="radioDefault2">
-                                                        Licencia Temporal
-                                                    </label>
-                                                </div>
-                                                <div class="col-sm-6 col-12 mb-3">
-                                                    <label for="resolucion-licencia" class="form-label">
-                                                        Resolución
-                                                    </label>
-                                                    <input type="text" class="form-control" id="resolucion-licencia" name="resolucion-licencia" required>
-                                                    <div class="input-group">
-                                                        <input type="file" class="form-control" id="resolucion-sede" name="resolucion-sede">
-                                                        <input type="hidden" id="url-resolucion-sede" name="url-resolucion-sede">
-                                                    </div>
-                                                    <a id="ver-resolucion" href="#" target="_blank">Ver Resolución</a>
-                                                
-                                                </div>
-                                                <div class="col col-sm-4 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="expediente-licencia" class="form-label">Nro. expediente</label>
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" id="expediente-licencia" name="expediente-licencia" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col col-sm-4 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="numero-licencia" class="form-label">Nro. Licencia</label>
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" id="numero-licencia" name="numero-licencia" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col col-sm-4 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="nro-acervo" class="form-label">Nro. Acervo</label>
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" id="nro-acervo" name="nro-acervo" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-12 mb-3">
-                                                    <label for="dias-licencia" class="form-label">
-                                                        Días
-                                                    </label>
-                                                    <input type="number" class="form-control" id="dias-licencia" name="dias-licencia" required>
-                                                </div>
-                                                <div class="col-sm-6 col-12 mb-3">
-                                                    <label for="ini-licencia" class="form-label">
-                                                        Fecha Inicio
-                                                    </label>
-                                                    <input type="date" class="form-control" id="ini-licencia" name="ini-licencia" required>
-                                                </div>
-                                                <div class="col-sm-6 col-12 mb-3">
-                                                    <label for="fin-licencia" class="form-label">
-                                                        Fecha Fin
-                                                    </label>
-                                                    <input type="date" class="form-control" id="fin-licencia" name="fin-licencia">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault1" value="0">
+                                                <label class="form-check-label" for="radioDefault1">
+                                                    Licencia Ordinaria
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="1">
+                                                <label class="form-check-label" for="radioDefault2">
+                                                    Licencia Especial
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tipo-licencia" id="radioDefault2" checked value="2">
+                                                <label class="form-check-label" for="radioDefault2">
+                                                    Licencia Temporal
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12 mb-3">
+                                            <label for="resolucion-licencia" class="form-label">
+                                                Resolución
+                                            </label>
+                                            <input type="text" class="form-control" id="resolucion-licencia" name="resolucion-licencia" required>
+                                            <div class="input-group">
+                                                <input type="file" class="form-control" id="resolucion-sede" name="resolucion-sede">
+                                                <input type="hidden" id="url-resolucion-sede" name="url-resolucion-sede">
+                                            </div>
+                                            <a id="ver-resolucion" href="#" target="_blank">Ver Resolución</a>
+
+                                        </div>
+                                        <div class="col col-sm-4 col-12">
+                                            <div class="mb-3">
+                                                <label for="expediente-licencia" class="form-label">Nro. expediente</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="expediente-licencia" name="expediente-licencia" required>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-success">
-                                                    Guardar Licencia
-                                                </button>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                    Cancelar
-                                                </button>
+                                        </div>
+                                        <div class="col col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="numero-licencia" class="form-label">Nro. Licencia</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="numero-licencia" name="numero-licencia" required>
+                                                </div>
                                             </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                        <div class="col col-sm-6 col-12">
+                                            <div class="mb-3">
+                                                <label for="nro-acervo" class="form-label">Nro. Acervo</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="nro-acervo" name="nro-acervo" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-12 mb-3">
+                                            <label for="dias-licencia" class="form-label">
+                                                Días
+                                            </label>
+                                            <input type="number" class="form-control" id="dias-licencia" name="dias-licencia" required>
+                                        </div>
+                                        <div class="col-sm-4 col-12 mb-3">
+                                            <label for="ini-licencia" class="form-label">
+                                                Fecha Inicio
+                                            </label>
+                                            <input type="date" class="form-control" id="ini-licencia" name="ini-licencia" required>
+                                        </div>
+                                        <div class="col-sm-4 col-12 mb-3">
+                                            <label for="fin-licencia" class="form-label">
+                                                Fecha Fin
+                                            </label>
+                                            <input type="date" class="form-control" id="fin-licencia" name="fin-licencia">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">
+                                                Guardar Licencia
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    {% endblock %}
-                </div>
+                    </div>
+                {% endblock %}
             </div>
-        {% endblock %}
+        </div>
+    {% endblock %}

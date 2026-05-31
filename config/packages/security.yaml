@@ -45,6 +45,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/home, roles: ROLE_USER }
+        - { path: ^/reportes, roles: ROLE_USER }
         - { path: ^/registrar, roles: ROLE_SUPER_ADMIN }
         - { path: ^/pdfs, roles: PUBLIC_ACCESS }
 

@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Reportes
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <!-- Para PDF -->
+    <!-- 1º Primero la librería base -->
+    <script src="js/jspdf.umd.min.js"></script>
+
+    <!-- 2º Después el complemento de tablas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/5.0.2/jspdf.plugin.autotable.min.js" integrity="sha512-JizZOUNesiGhMcp9fsA/9W31FOat6QysBM8hSj6ir8iIANIUJ2mhko7Lo1+j0ErftmJ8SebMZLm9iielKjeIEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="{{ asset('js/reportes.js') }}"></script>
+
+{% endblock %}
+
+{% block body %}
+    <div class="d-flex">
+        {% include "menu.html.twig" with {'item':2} %}
+        <div class="p-4" style="flex-grow: 1;">
+            {% block cuerpo %}
+                <h1>Reportes</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-6 col-sm-3 mb-3">
+                                        <label for="basic-url" >Periodo</label>
+                                        <div class="input-group">
+                                            <input type="date" id="fecha-ini" name="fecha-ini" class="form-control" placeholder="Fecha Inicial" aria-label="Fecha Inicial">
+                                            <span class="input-group-text">Al</span>
+                                            <input type="date" id="fecha-fin" name="fecha-fin" class="form-control" placeholder="Fecha Fin" aria-label="Fecha Final">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-3 mb-3">
+                                        <label for="giro">Giro de Negocio</label>
+                                        <select id="giro" name="giro" class="form-control">
+                                            <option selected value=""></option>
+                                            {% for giro in giros %}
+                                                <option value="{{giro.id}}">{{giro.actividad}}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                    <div class="col-6 col-sm-3 mb-3">
+                                        <label for="tipo">Tipo de Negocio</label>
+                                        <select id="tipo" name="tipo" class="form-control">
+                                            <option selected value=""></option>
+                                            {% for tipo in tipos %}
+                                                <option value="{{tipo.id}}">{{tipo.denominacion}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-5 col-sm-2 mb-4">
+                                        <label for="licencia">Tipo Licencia</label>
+                                        <select id="licencia" name="licencia" class="form-control">
+                                            <option value="" selected >Todos</option>
+                                            <option  value="0">Ordinario</option>
+                                            <option  value="1">Especial</option>
+                                            <option  value="2">Temporal</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-1 mt-4">
+
+                                        <button type="button" id="btn-consultar" class="btn btn-info">
+                                            <img src="/img/buscar-1.png" alt="Busqueda" style="width: 16px;">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- Botones HTML estándar (No dependen de DataTables) -->
+                <div class="mb-3">
+                    <button id="btn-exportar-excel" class="btn btn-success btn-sm me-2" disabled>
+                        <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
+                    </button>
+                    <button id="btn-exportar-pdf" class="btn btn-danger btn-sm" disabled>
+                        <i class="bi bi-file-earmark-pdf"></i> Exportar a PDF
+                    </button>
+                </div>
+                <div id="respuesta">
+
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+
+{% endblock %}

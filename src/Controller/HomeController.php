@@ -320,7 +320,8 @@ final class HomeController extends AbstractController
         $em->persist($licencia);
         $em->flush();
         $dominio = $request->getSchemeAndHttpHost();
-        $dominio = $dominio . '/licencia/' . $numeroLic;
+        //$dominio = $dominio . '/licencia/' . $numeroLic;
+        $dominio = 'https://laconvencion.gob.pe/ogat/busqueda.php?id=' . $numeroLic;
         $qrCode = new QrCode($dominio);
         $writer = new PngWriter();
         $result = $writer->write($qrCode);

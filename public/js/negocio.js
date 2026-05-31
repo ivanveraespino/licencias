@@ -189,20 +189,19 @@ const form = document.querySelector('form');
 
 document.getElementById('guardar').addEventListener('click', function (e) {
     // 2. IMPORTANTE: Detener el envío natural SIEMPRE al inicio
-    e.preventDefault(); 
+    e.preventDefault();
     e.stopPropagation();
     const form = document.querySelector('form');
-    
+
     const rucInput = document.getElementById('ruc');
     const dniInput = document.getElementById('dni-rep');
-
-    // Validación de longitud manual adicional
-    if (rucInput.value.length !== 11) {
+    const rucValue = rucInput.value.trim();
+    // Si tiene contenido, debe tener exactamente 11 dígitos
+    if (rucValue.length > 0 && rucValue.length !== 11) {
         alert("El RUC debe tener exactamente 11 dígitos");
         rucInput.focus();
         return;
     }
-
     if (dniInput.value.length !== 8) {
         alert("El DNI debe tener exactamente 8 dígitos");
         dniInput.focus();
@@ -214,7 +213,7 @@ document.getElementById('guardar').addEventListener('click', function (e) {
         // Si falta algo, activamos los estilos de error de Bootstrap
         form.classList.add('was-validated');
         // Obligamos al navegador a mostrar el mensaje de error
-        form.reportValidity(); 
+        form.reportValidity();
         return; // Detenemos la ejecución aquí, NO llega al fetch
     }
     const formData = new FormData(form);
